@@ -1,0 +1,268 @@
+ Wireless Technology Notes July 13-16
+
+Analog and Digital Data Transmission
+
+Data
+ - Entities that convey information
+
+Signals
+ - Electric or electromagnetic representations of data
+
+Signaling
+ - Physical propagation of the signal along a suitable medium
+
+Transmission
+ - Communication of data by the propagation and processing of signals
+
+
+
+Digital signals   			Vs 		   Analog Signals
+Generally cheaper					   Suffer more from attenuation
+Less susceptible to noise
+  interference
+
+
+
+Transmission Impairments
+
+ - Signal received may differ from signal transmitted, causing:
+   	- Analog: degradation of signal quality
+   	- Digital: bit errors
+
+ - Most significant impairments are 
+ 	- Attenuation and attenuation distortion
+ 	- Delay distortion
+ 	- Noise 
+
+  Attenuation
+ 	- Decay of the amplitude of the signal
+ 	- To counter attenuation, the original signal can be sent with more power, or amplifiers could be placed in between trasmitter and receiver
+
+  Noise
+	- Thermal noise
+		- Due to thermal agitation of electrons
+	  	- Uniformly distributed accross bandwidths
+	  	- Referred to as white noise
+	- Intermodulation noise
+	  	- Produced by nonlinearities in the transmitter, receiver, and/or intervening transmission medium
+	  	- Effect is to produce signals at a frequency that is the sum of difference of the two original frequencies
+	- Crosstalk
+	  	- A signal from one line is picked up by another
+	  	- Can occur by electrical coupling between nearby twisted pairs or when microwave antennas pick up unwanted signals
+	- Impulse Noise
+		- Caused by external electromagnectic interferences
+		- Noncontinuous, consisting of irregular pulses or spikes
+		- Short duration and high amplitude
+		- Minor annoyance for analog signals, but a major source of error in digital data
+
+
+Nyquist bandwidth
+
+In the case of a channel that is noise free:
+	- The limitation of data rate is simply the bandwidth of the signal
+		- If the rate of signal transmission is 2B then a signal with frequencies no greater than B is sufficient to carry the signal rate
+		- Given a bandwidth of B, the highest signal rate that can be carried is 2B
+	- For binary signals, the data rate tha can be supported by B Hz is 2B bps
+	- With multilevel signaling, the Nyquist formula becomes:    C = 2B log_2(M)
+	- Data rate can be increased by increasing the number different signal elements
+		- This increases burden on the receiver
+		- Noise and other impairments limit the practical value of M
+
+Shannon Capacity Formula
+
+	- The basis for much of modern networking
+
+	- Considering the relation of data rate, noise, and error rate:
+		- Faster data rate shortens each bit so that bursts of noise corrupts more bits
+		- Given noise level, higher rates means higher errors
+	- Shannon developed formula relating these to signal to noise ratio (in decibels)
+	- SNR_db = 10 log_10(signal / noise)
+	- Capacity  C = B log_2(1 + SNR)
+
+	- N_0 = k * T  watt/Hz     (average white noise at a Temperature in Kelvin)
+	- k = 1.38 * 10^-23 J/K
+	- N_watt = B * k * T
+	- In dB scale:  log_10(N) = log_10(B) + log_10(k) + log_10(T)
+												^
+										   (-228.6dBW)
+
+	- SNR = Signal power/noise power
+
+
+	Example:
+	B = 10 MHz
+	SNR_db = 10 dB
+	-----------------------------
+	SNR_db = 10log_10(SNR_linear)
+	C = 10*10^6 log_2(1 + 10)
+	  = 35 Mbps
+
+
+Spectral Efficiency = C / B = log_2(1 + SNR)
+	- Spectral Efficiency is equal to SNR = 1, there is a linear relation at SNR < 1, and logarithmic at SNR > 1
+
+Variables:
+	- SNR: Signal to noise ratio 
+	- B: Bandwidth
+	- C: Capacity
+	- E_b: Signal Energy
+	- N_0: Noise Power
+	- S: Signal Power
+	- R: data rate
+	
+Relationships
+	- E_b / N_0 ~ SNR
+	- T_b = 1 / R
+	- E_b = S*T_b
+	- E_b / N_0 = (S*T_b)/(kT)  = S / (kTR)
+	- (E_b/N_o)_dB = S_dBW - 10log_10(R) + 228.6 - 10log_10(T)
+	- 1 W => 10log_10(1000) = 30dBm
+	- Channel Gain  P_in / P_out => 10log_10(P_in/P_out)
+	- P = V^2 / R
+	- P_in / P_out = (V_in^2/R)/(V_out/R) = W_in^2/W_out
+	
+
+
+Transmission Media
+
+- Radio Broadcast Range = 30 MHz to 1 GHz
+	- Omnidirectional Applications
+
+- Microwave: 1GHz to 40GHz. Highly directional beams suitable for space communication
+
+- Infrared: 3 x 10^11 to 2 x 10 ^14 Hz
+
+- Antenna:  (See Figure 4.8 on page 128)
+	- Conductor for system. Used to radiate or collect electromagnetic energy. Converted to by antenna from RF
+	- Isotropic: A point in space that radiates power equally in all directions. Omnidirectional
+	- Antenna Lobe: Directional Antenna patern
+	
+	- Antenna gain: Power output in a particular direction, compared to that produced in any direction by a perfect omnidirectional (isotropic) antenna
+		- G_db = 10 log_10(P_2/P_1) where P_1 is the radiated power of the directional antenna, and P_2 is the radiated power from the reference antenna
+
+	- Effective Area: related to the physical size of the antenna and to its shape
+		- G = (4pi A_e) / (λ^2)  = (4pi f^2 A_e) / c^2
+		where 
+			G = antenna gain (ratio)
+			A_e = effective area (m^2)
+			f = carrier frequency (Hz)
+			c = speed of light (3e8 m/s)
+			λ = carrier wavelength (m)
+
+	- Isotropic antenna: A_e = λ^2 / (4pi)
+	
+		- Ideal power gain = 7A / λ^2
+
+
+
+Satellites
+	
+	- Geosynchronous satellites: Fixed at a position (~36000 km above surface) rotating with the speed of the earth
+	
+	- GPS
+		- roughly 27 satellites provide gps
+		- to gather required information, a user must be able to connect to four satellites to collect x, y, z and time.
+
+	- Others are Orbiting satellites
+
+	- L-Band:  1 - 2 GHz
+	- S-Band:  2 - 4 GHz
+	- C-Band:  4 - 8 GHz    << Most popular
+	- X-Band:  8 - 12 GHz   << Mostly Military satellites
+	- Ku-Band: 12 - 18 GHz
+	- Ka-Band: 26 - 40 GHz
+
+
+Broadcast Radio
+
+	- Broadcast radio is omnidirectional and microwave is directional
+
+	- Radio is the term used to encompass frequencies in the range of 3kHz to 300GHz
+
+	- Broadcast radio (30MHz - 1 GHz) covers:
+		- FM radio and UHF and VHF television band
+		- Data networking applications
+
+	- Limited to line of sight
+
+	- Suffers from multipath interference
+		- Reflections from land, water, man-made objects
+	
+	A table of the different bands can be found in table 4.5 on page 136
+
+ 
+	- Ground wave propagation follows the contour of the earth and can propagate distances well over the visual horizon
+	- This effect is found in frequencies up to about 2MHz
+	- The best known example of ground wave communication is AM radio
+
+
+	- Refraction - SEE PAGE 2 OF WRITTEN NOTES and page 137 of the book
+	- Reflection - " " " " " " "
+		- Multipath interference is produced by reflection. The same signal may travel different lengths due to reflection before
+		  reaching a destination, and the receiver should be able to interpret this interference 
+	- Skywave Propagation -  " " " " " " "
+	-	 Ground and skywave propagation do not operate above 30MHz
+	- Line of Sight Propagation - Must be visible
+		- Above 30 MHz
+
+
+	max distance of radio signal approx.= 3570 * sqrt(h * k)
+		where h is height of antenna, k is adjustment factor for the radio horizon which is usually slightly more than the optical horizon due to bending waves
+
+
+	Free space loss:
+		- always present attenuation of a signal
+		
+		- P_t / P_r = (4pi d)^2/λ^2  = (4pi f^2 d) / c^2
+		- L_db = 20 log_10(f) + 20 log_10(d) - 147.56dB
+
+		- Friis Model ->   P_t / P_r = (4pi d)^2/(G_t * G_r * λ^2)
+		- L_db = -20log_10(f) + 20 log_10(d) - 10log_10(A_t * A_r) + 169.54dB'
+
+		- Free space loss graphed on page 141
+
+
+
+
+
+Chapter 5 (p. 149)
+Signal encoding techniques
+
+digital/analog >>>> ENCODER >>>> digital >>>> DECODER >>>>
+digital/analog >>>> MODULATOR >>>> analog >>>> DEMODULATOR >>>>
+
+
+- Analog Data, Analog Signals (see notes pg. 3)
+
+	- There are two principal reasons for analog modulation of analog signal:
+		- A higher frequency may be needed for effective transmission
+		- Modulation permits frequency-division multiplexing
+
+
+
+- Digital Data, Analog Signals (see notes pg. 4)
+	
+	r = roll-off factor  
+	R = Data rate
+
+	- ASK: Amplitude Shift Keying
+
+		- B_T = (1 + r) R
+				
+	- FSK: Frequency Shift Keying
+	
+		- B_T = (1 + r)M/(log_2(M))*R
+
+	- PSK: Phase Shift Keying
+		- Binary PSK
+		- Differential PSK
+
+		- B_T = (1 + r)/(log_2(M))*R
+
+
+	P: Probability of error
+	(See Figure 5.13 on p. 170)
+
+	ASK, FSK:  P_b = 1/2 e^(-E_b/N_o)
+	PSK: P_b = 1/2 Q(sqrt(E_b/N_o)) 
+

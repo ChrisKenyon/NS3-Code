@@ -1,0 +1,375 @@
+Wireless Technology Notes 
+
+07/06/2015
+-------------------------------------------------------------------------------------------
+
+
+Simple Communications Model
+Source -> Transmitter -> Transmission System -> Receiver -> Destination
+ex:
+Workstation -> Modem -> Public Telephone Network -> Modem -> Server
+
+
+
+07/07/2015
+
+Functions of Protocol Architecture
+
+- Breaks logic into subtask modules which are implemented separately
+- Modules are arranged in a vertical stack
+	- Each layer in the stack performs a subset of functions
+	- Relies on next lower layer for primitve functions
+	- Provides service to the next highest layer
+
+Key Features of a Protocol
+
+- A protocol is a set of rules or conventions that allow peer layers to communicate
+- The key features of a protocol are:
+	- Syntax: Format of data blocks
+	- Semantics
+	- Timing 
+
+TCP/IP
+ - Result of DARPA research
+ - Referred to as TCP/IP protocol suit
+ - TCP/IP comprises a large collection of protocols that are Internet standards
+
+
+
+
+
+////// LAYERS  //////
+
+-------------------------------------------------------------------------------------------
+    
+Application 		                    SMTP, FTP, SSH, HTTP
+ - Provides access to TCP/IP
+ environments & provides distributed
+ info
+///////////////////////////////////////////////////////////////////////////////////////////
+
+-
+
+-------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------
+
+Transport        						TCP, UDP  
+- Transfer of data between end
+points. Error, flow, and congestion
+control. Reliable delivery
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+- AKA: Host-to-Host Layer
+- May provide reliable end-to-end service or merely and end-to-end delivery 
+   service without reliability mechanisms
+
+-------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------
+
+Internet									IPv4, IPv6   |  ICMP, OSPF, RSVP   |  ARP
+- Shield high layers from details of 
+physical network configuration. Provides
+routing. May provide QoS, congestion
+control
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+- Impemented in end systems and routers
+
+-------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------
+
+Network Access/Data Link					Ethernet, WiFi, ATM, frame relay
+- Logical interface to network
+hardware. May be stream or packet oriented.
+May provide reliable delivery.
+///////////////////////////////////////////////////////////////////////////////////////////
+
+- Covers the exchange of data between an end system and the network that it is attached to
+- Concerned with: 
+	- Acces to and routing data across a network for two end systems attached to the same network
+
+-------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------
+
+Physical 							 Twisted pair, optical fiber, satellite, terrestrial microwave
+- Transmission of bit stream; specifies
+medium, signal encoding technique, data
+rate, bandwidth, and physical connector
+///////////////////////////////////////////////////////////////////////////////////////////
+
+-------------------------------------------------------------------------------------------
+
+
+
+
+TCP/IP Architecture
+-------------------------------------------------------------------------------------------
+
+- In TCP/IP, uses predefined port numbers to connect a specific application 
+User Data 							Application byte stream
+	-> TCP header
+		-> IP header
+			-> Network header
+
+
+Transmission Control Protocol (TCP)
+ - TCP is the transport layer protocol for most applications
+ - TCP provides a reliable connection for transder of data between applications
+ - A TCP segment is the basic protocol unit
+ - TCP tracks segements between entities for duration of each connection
+
+	
+	TCP Headers
+	- 160 bits
+	- Source & Destination Port
+	- Sequence Number
+		- In case of receiving segments out of order this enables TCP to find the right order
+	- Checksum
+		- Check the integrity and correctness of the data in the segments
+
+
+
+- Contains:
+	Source port, destination port, sequence number, acknowledgement number, header length, reserved... (more)
+
+
+Has a 3-way handshake:
+
+	Initiator								Listener
+
+											listen()
+	connect() ----------------------------> TCB initialized to SYN-Received State
+			  <---------------------------- ack
+	success coded returned by connect() -->	TCB transitions to ESTABLISHED State
+
+-------------------------------------------------------------------------------------------
+
+User Datagram Protocol (UDP)
+ - Alternative to TCP
+ - Does not guaranteee delivery, preservation of sequence, or protection against duplication
+ - Enables a procedure to send messages to other procedures with a minimum or protocol mechanism
+ - Adds port addressing capability to IP
+ - Used with Simple Network Management Protocol (SNMP)
+ - Uncludes a checksum to verify that no error occurs in the data
+
+* Faster if you expect to lose some data and don't care (i.e. video streaming can miss a frame here and there)
+
+-------------------------------------------------------------------------------------------
+
+IPv4 Header
+
+- Contains:
+	Version, IHL, DS, ECN, Total Length, Identification, Flags, Fragment Offset,
+	Time to Live, Protocol, Header Checksum, Source Address, Destination Address, Options & Padding
+
+
+IPv6 Header
+
+- Contains:
+	Version, DS, ECN, Flow Label, Payload Length, Next Header, Hop Limit, 
+	Source Address, Destination Address
+
+
+-------------------------------------------------------------------------------------------
+
+
+				MIME
+				  |
+				  V
+BGP, FTP, HTTP, SMTP, SSH	SNMP
+			|				  |
+			V 				  V
+		   TCP				 UDP		IGMP, ...
+		    |				  |			  |
+		    |_________________|___________|
+		    		|
+		      	    V
+		      	    IP
+
+-------------------------------------------------------------------------------------------
+
+
+
+
+Service Primitives and Parameters
+-------------------------------------------------------------------------------------------
+
+- Services between adjacent layers
+- Expressed as:
+	Primitives
+	 - Specifcy the function to be performed
+	 - Types:
+	 	- Request
+	 	- Indication
+	 	- Response
+	 	- Confirm
+
+	Parameters
+	 - User data
+-------------------------------------------------------------------------------------------
+
+
+
+
+
+Traditional Internet-Based Applications
+-------------------------------------------------------------------------------------------
+
+Simple Mail Transfer Protocol (SMTP)
+ - Provides mechanism for transerring messages among hosts
+
+File Transfer Protocol (FTP)
+ - Used to send files from one system to another under user command
+
+Secure Shell (SSH)
+ -
+-------------------------------------------------------------------------------------------
+
+
+
+
+
+Sockets Programming
+-------------------------------------------------------------------------------------------
+
+
+- Concept was developed in UNIX env in 1980s as Berkeley Sockets Interface
+	- De facto standard application programming interface (API)
+	- Basis for Window Sockets (WinSock)
+
+- Enables communication between a client and server process
+
+- May be connection oriented (i.e. TCP) or connectionless (i.e. UDP)
+
+
+The Socket
+
+- Formed by IP + Port
+- Stream socket = All blocks guaranteed (TCP)
+- Datagram - Delivery not guaranteed (UDP)
+- Raw Socket (IP Layer) - Raw address (ping)
+
+Socket Functions
+
+Format	  |      Function  			
+socket()	Initialize a socket 	
+bind()		Register address with sys 	
+listen()	Listen for conn 	
+accept()	establish conn 	
+connect()	 	
+send()		send socket 	
+recv()		receive socket 	
+read()		read 	
+write()		write 	
+close()		terminate connection 	
+
+-------------------------------------------------------------------------------------------
+
+
+
+
+
+DATA TRANSMISSIONS
+-------------------------------------------------------------------------------------------
+
+
+Transmissions Terminology
+
+- Data trasmission occurs between transmitter and receiver over some transmission medium
+- Communication is in the form of electromagnetic waves
+- Guided media
+	- Twisted pair, coaxial, optical fiber
+- Unguided media (wireless)
+	- Propogation through air, vacuum, sea water
+
+
+- Direct Link
+	- No intermediate devices other than amplifiers or repeaters used to increase the signal strength
+- Point-to-point
+	- A direct link between two devices
+	- Are the only 2 devices sharing medium
+- Multi-Point
+	- More than two devices
+
+- Simplex
+	- Signals are one direction
+	- One station is transmitter, one is recceiver
+
+- Half Duplex
+	- Both transmit, but only one at a time
+	- More common in unguided media
+
+- Full Duplex
+	- Both stations may transmit simultaneously
+	- The medium is carring signals in both directions at the same time
+	- More common in guided media
+
+
+
+
+
+SIGNALS
+-------------------------------------------------------------------------------------------
+
+- Represented by amplitude, frequency, phase
+- s(t) = A*sin(2pi*f*t + ϕ)
+
+AM radio 
+- Amplitude Modulation: change the amplitudes of the sine wave to send data
+FM radio
+- Frequency Modulation: change the frequency of the sine wave to send data
+
+sin(2pi ft) + (1/3)sin(2pi (3f)t) + (1/4)sin(2pi (4f)t) + ... = square wave
+Square wave is not really possible. This would provide infinite bandwidth because if it
+ takes 0 time to toggle, the max frequency is infinite
+- Adding finite sine waves - the period becomes the inverse of the minimum frequency
+
+
+- Bandwidth = maximum frequency - minimum frequency
+- 2.4GHz - 2.5GHz has 100MHz of bandwidth, which would allow 5 users of 20MHz.
+	 (REMEMBER - Can change on android to higher block to make faster)
+
+
+- Sync function -  Y(f) = sin(f) / f
+	- Sine wave that continuously decreases in value to 0 toward infinity in the Frequency-Domain representation
+
+
+- A Fourier Transform on a time-domain signal shows a frequency-domain representation
+
+- Spectrum: Range of frequencies contained in signal.
+- Absolute Bandwidth: width of spectrum
+- Effective bandwidth (bandwidth): Narrow band of frequencies containing most energy
+- DC component: Component of zero frequency
+
+-------------------------------------------------------------------------------------------
+
+
+Transmission Impairments
+-------------------------------------------------------------------------------------------
+
+Signal received may differ from signal transmitted
+ - Analog - Degradation of signal quality
+ - Digital - bit errors
+
+Most significant impairments are:
+ - Attenuation and attenuation distortion
+ - Delay
+ - Noise
+
+
+ 

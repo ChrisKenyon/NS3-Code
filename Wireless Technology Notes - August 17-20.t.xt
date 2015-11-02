@@ -1,0 +1,81 @@
+Wireless Technology Notes - August 17-20
+
+
+Bluetooth Overview
+
+- An always-on, short-range radio hookup that resides on a microchip
+- Concept behind Bluetooth is to provide a universal short-range wireless capabiliy
+- Intended to support an open-ended list of application
+- Bluetooth capabilities:
+	- Make calls from a wireless headset connected remotely
+	- Speakers
+	- ...
+
+- Piconets
+	- A small network in which up to eight devices can communicate
+	- Concsists of a master and from one to seven active slabe devices
+		- The radio designated as the master nmakes the determination of the
+		  channel and phase that shall be used by all devices on the piconet
+		- A slave may only communicate with the master and may only communicate
+		  when granted permission by the master
+	- Ten of these piconets can coexist in the same coverage of Bluetooth radio (Scatternet)
+	- To provide security each link is encoded and protected against eavesdropping
+	  and interference
+
+- Frequency Hopping Spread Spectrum
+	- Repidly switching among many frequency carriers, or hopping
+	- Uses a pseudorandom sequence known to both transmitter and receiver
+	- FH sequence is determined by the master in the Piconet as function of its address
+	- Comparable to DSSS in using a much larger spectrum than needed
+
+	- In Bluetooth, serves two purposes:
+		- It provides resistance to interference and multipath effects
+		- It provides a form of multiple access among co-located devices in different piconets
+
+- FH-CDMA
+	- Multiple access scheme comparable to DS-CDMA
+	- It is used to coordinate access among Piconets
+	- Each piconet uses its own hopping spread
+
+- Adaptive Frequency Hopping Spread Spectrum (AFH)
+	- Use only "good" frequencies in the hoppiong sequence
+	- Avoids crowded frequencies in the hopping sequence
+	- Very useful when unlicensed spectrum is used or in jamming scenarios
+	- Used in Bluetooth version 4
+
+
+
+
+- Packets
+
+	- Contain acess code (akin to preamble)
+	- Physical links either synchronous (SCO) or async (ACL)
+		- SCO: Fixed bandwidth PPP between 1 master and 1 slave
+		- ACL: PPP between master and all slaves. different packet types
+
+	- SCO Packet Type Summary 
+		- HV1, HV2, HV3 packets
+
+
+- Bluetooth Logical Link Control and Adaption Protocol
+
+	- L2CAP Logical Channels
+		- Connectionless
+			- Supports the connectionless service
+			- Each chanell is unidirectional
+			- Typically used for broadcast from the master to multiple slaves
+
+		- Connection oriented
+			- Supports the connection-oriented service
+			...
+
+	- Flow Specification
+		- Set of parameters that indicate a performance level that the
+		  transmitter will attempt to acheive
+		- Consists of the following parameters:
+			- Service type
+			- Token rate (bytes/second)
+			- Token bucket size (bytes)
+			- Peak bandwidth (bytes/second)
+			- Latency (microseconds)
+			- Delay variation (microseconds)

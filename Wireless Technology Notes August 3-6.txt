@@ -1,0 +1,182 @@
+Wireless Technology Notes August 3-6
+
+
+August 3, 2015
+//////////////
+
+Butt Raping by Midterm
+
+
+August 4, 2015
+//////////////
+
+
+			Wifi LAN
+----------------------------------
+
+- Multi-Cell
+
+- Ad hoc WLAN
+	- connected directly with the users around it
+	- Network created by sensing all of the nearby nodes
+
+
+- Access Point (AP)
+- Basic Service Set (BSS)
+- Coordination function
+- Distribution System (DS)
+- Extended service set (ESS)
+- Frame
+- MAC protocol data unit (MDPU)
+- MAC service data unit (MSDU)
+- Station
+
+IEEE 802.11 Services
+
+ Provided by Distribution System:
+- Association
+- Dissassociation
+- Distribution
+- Integration
+- Reassociation
+ Provided by Station:
+- MSDU delivery
+- Privacy
+- Authentication
+- Deauthentication
+
+
+Wireless LAN Requirements
+
+- Throughput
+- Number of Nodes
+- Connection to backbone LAN
+- Service area
+- Battery power consumption
+- Transmission robustness and security
+- Collocated network operation
+- License-free operation
+- Handoff/roaming
+- Dynamic configuration
+
+
+
+Wi-Fi Alliance
+
+- There is always a concern whether products from different vendors will
+  successfully interoperate
+- Wireless Ethernet Compatibility Alliance (WECA)
+	- Industry consortium formed in 1999
+
+
+Association-Related Services
+	
+- DS requires information about stations within the ESS that is provided 
+  by the association-related services
+- Station must be associated before DS can deliver data to or accept data from it
+- 3 mobility transition types:
+	- No transition
+		- stationary or in single BSS
+	- BSS transition
+		- between BSS in same ESS
+	- ESS transition
+		- between different BSS in different ESS
+
+- DS needs to know the identity of the AP to which the message should be delivered
+	- Station must maintain association with AP within current BSS
+
+- Association - establishes initial association between station and AP
+- Reassociation - enables an established association to be transferred from one
+  AP to another
+- Disassociation - a notification from either a station or an AP that an
+  existing association is terminated
+
+
+
+Reliable Data Delivery
+
+- Can be dealt with at a higher layer
+- More efficient to deal with errors at MAC level
+
+
+
+Random Channel Access
+
+- ALOHA protocol simply says when you receive a packet to transmit, send it
+- A collision happens when two packets are scheduled to send at the same time
+
+	Δ	----->	Δ	<------ Δ
+	1 			2 			3
+
+	S_1 = S_3	
+
+	S_1 / (N + S_3) ≈ 1
+	S_3 / (N + S_1) ≈ 1
+
+- CSMA - Carrier Sensing Multiple Access
+	- Listen-Before-Talk
+- CSMA/CD
+	- Has Collision Detection
+- CSMA/CA
+	- Has collision avoidance
+
+- We don't use Collision Detection in wireless because transmission signals can
+  mask receiving signals
+
+ - Binary Exponential Function - increase the wait time for each failure to access the channel
+   if random time access is not working
+
+
+Four Frame Exchange
+
+ - Hidden Terminal Problem
+
+ x ----------------> terminal  <------------------- y
+ 			[>>>>>>pkt>>>>>>]
+ 						[<<<<<<pkt<<<<<]
+ 						 Δ
+ 						 |
+ 						 collision
+
+ 	- x and y are at the far ends of the access point - largely increases chance of collision
+
+ - This problem is fixed by RTS and CTS, which are used in densely used networks
+
+ x ----------------> terminal  <------------------- y
+ 									[<<RTS<<]
+		[>>CTS>>]
+ 									[<<DATA<<]
+		[>>ACK>>]		 
+ 						 
+
+
+- RTS alerts all stations within range of source that exchange is under way
+- CTS alerts all stations within range of destination
+- Other stations don't trasnmit to avoid collision
+- RTS/CTS exchange is a required function of MAC but may be disabled
+- Can use four-frame exchange for better reliability
+	- Source issues a Request To Send (RTS) frame
+	- Destination responds with Clear To Send (CTS)
+	- After receiving CTS, source transmits data
+	- Destination responds with ACK 
+
+
+  
+See Figures on pg. 405-407
+
+Distributed Coordination Function (DCF)
+
+- DCF sublayer uses CSMA algorithm
+- Does not include a collision dtection function because it is not practical
+
+
+IFS > Backoff > Tx
+
+August 5, 2015
+//////////////
+
+
+
+
+August 6, 2015
+//////////////

@@ -1,0 +1,131 @@
+Wireless Technology Notes - August 10-13
+
+
+MIMO Capacity
+
+
+- SISO:
+	
+	- C = B*log_2(1 + SINR)
+
+
+- SIMO & MISO
+	
+	- C = B*log_2(1 + N * SINR)
+
+	- N antennas at Rx (SIMO) or Tx (MISO)
+
+
+- MIMO:
+	
+	- C = N * B * log_2(1 + SINR)
+
+	- N Antennas at both Tx and Rx
+
+
+
+OFDM
+
+- Orthogonal Frequency-Division Multiplexing
+	- A multi-carrier modulation technique based on frequency division multiplexing
+	- The entire channel bandwidth is divided into several narrow bandwidth channels
+	- Contrary to traditional FDM, it packs multiple carriers into much smaller bandwidth (orthogonal sub-carriers) abd eliminates the needs for frequency guard bands
+	- The modulated signals share the same center frequency
+
+
+	Source Rate R
+	N subcarriers - each centered at f_c + i/2 f_b
+		-  i = -(N -1), -(N - 3), ..., -1, 1, ..., (N - 1)
+
+- Advantages
+
+	- If the data stream is protected by a forward error-correcting code frequency selective fading is easily handled
+	- Overcomes inter-symbol interference (ISI) in a multipath environment
+	- QPSK is a common modulation scheme used with OFDM
+	- Signal processing involves two functions:
+		- Fourier Transforms
+			- Converting time-domain signals to frequency domain and vice versa
+			- There is a discrete-time version of FT for digital signals, called DFT and IDFT
+				- Implementation of DFT could be slow
+				- Works best when the number of input samples is a power of 2 --- 8, 16, 64, 128, ...
+			- Fast Fourier Transform (FFT)
+				- Algorithm that converts a set of uniformly spaced data points from the time domain to the frequency domain
+			- Inverse Fast Fourier transform (IFFT)
+				- Reverses the FFT operation
+				- Has the effect of ensuring that the subcarriers do not interfere with each other
+
+		R -> T = 1/R
+		DFT -> Fourier T for Digial
+
+		FFT -> 2^m
+
+	- Inter Block Interference & CP
+
+		- ISI could destroy the orthogonality of the sub-carriers, the main premise behind OFDM
+		- To combat this, each OFDM symbol is preceded with a cyclic prefix (CP)
+			- CP is the last portion of each OFDM symbol copied to the beginning
+			- Has nice properties that helps with easy channel estimation and equalization
+
+
+OFDMA
+
+	- A multiple access scheme using OFDM modulation
+	- Several subcarriers are considered a sub-channel and assigned to a single user
+	- Each receiving user demodulates the OFDM symbol and decodes its own subcarriers
+
+
+PAPR
+
+	- Peak-to-Average Power Ratio
+
+	- In OFDMA, power of symbols varies significantly 
+		- High PAPR
+		- This is especially the case when more complicated modulation schemes such as QAM is used
+		- Depends on the input bits and their modulated symbols
+	- High PAPR drains the battery
+	- Causes distortions if proper amplifiers are not used in the RF circuitry
+	- Not good for battery operated users
+
+
+SC-FDMA
+
+	- Single-carrier FDMA
+	- Similar to OFDMA, Bandwidth is divided into multiple subcarriers, but without PAPR problem
+
+
+Spread Spectrum
+
+	- Form of encoding for wireless communications
+	- Can be used to transmit either analog or digital data, using an analog signal
+	- Was initally developed for military and intelligence requirements
+	- Essential idea is to spread the information signal over a wider bandwidth 
+	  to make jamming and interception more difficult
+		- Frequency hopping
+		- Direct sequence
+
+	- Effect of Spreading
+		- Spreading code (pseudorandom sequence) is generated using an initial seed value for each transmitter
+		- Much wider bandwidth is consumed than the original data bandwidth
+		- Multiple users can use the same large bandwidth at the same time
+			- Hence different from hDMA? ... ?
+
+
+
+S_j(t) = sqrt(2 S_j) cos (2pi * f_c t)
+	
+	-  P = S_j
+
+S_r(t) = S(t) + S_j(t) + n(t)
+
+
+s_r(t) * c(t)
+		  ^spreading code
+
+S_j(t)c(t) = sqrt(2 * S_j)c(t)cos(2pi f_c t)   -> BPSK
+
+
+2/T <<  2/T_c
+
+
+
+

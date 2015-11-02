@@ -1,0 +1,161 @@
+Wireless Technology Notes July 20-23
+
+
+
+Demodulation - see page 9 of notes
+
+Bunch of math I don't understand - see page 10 - 11
+
+Sampling Theorem - see page 12
+	- if you have a sampled version of an analog signal at T, 2T, 3T, 4T...,  then if 1/T > 2B, you can exactly recreate the analog signal
+
+	- Impulse function (Dirac Delta)
+		- Theoretical pulse function where t -> 0 and value -> inf., therefore the integral = 1
+
+
+
+
+Signal Source	--->	Transmitter	--->	Channel	--->	Receive	--->	Destination
+						|									|
+						|									|
+						|									|
+					Error Detection  ----> Modulation		Demodulation  ----> Decoding
+					Coding
+
+					- Error Detection
+					- Error Correction
+					- ARQ
+
+
+ - Error
+ 	- Single-bit error
+ 	- Burst error
+
+ 	- P_b   (BER): Probability that a bit is received in error; also known as the bit error rate
+ 	- P_1		 : Probability that a fram arrives with no bit errors
+ 	- P_2		 : Probability that, with an error detecting algorithm in use, a frame arrives with one or more undetected errors
+ 	- P_3 		 : Probability that, with an error detecting algorithm in use, a frame arrives with one or more detected bit errors but no undetected errors
+ 	- F  		 : Number of frames
+
+
+ 	- P_1 = (1 - P_b)^F
+ 	- P_2 = 1 - P_1
+
+ - Parity Check 
+ 		- the last bit is 0 for even sum of the previous 7 bits, 1 for odd
+
+ 		- 2D Parity: can detect and correct
+
+ 		0 1 1 0 1 0 0 0  | 1
+ 		1 0 1 1 0 1 0 1  | 1
+ 		0 0 1 0 1 1 1 0  | 0
+ 		1 1 1 0 1 0 1 0  | 1
+ 		1 0 0 1 0 1 1 1  | 1
+ 		_________________| 0
+ 		1 0 0 0 1 1 1 0    0
+ 		n+m+1 ^
+
+
+ - Cyclic Redundancy Check (CRC)
+ 		- [------data-----k bits-----][n-k bit]  <-- Frame check sequence (FCS)
+
+ 		- checksum
+
+ 		-  Modulo-2
+ 			0 0 | 0
+ 			0 1 | 1
+ 			1 0 | 1
+ 			1 1 | 0
+
+ 		- Multiplication
+
+ 		1 1 0 1 1 0
+ 		X	  1 0 1
+ 		___________
+ 		1 1 0 1 1 0
+
+
+
+ 		Multiply data D(X) with x^n-k  and divide by P(X)
+
+ 	 x^(n-k) * D(X)					  R(X)
+ 	 --------------     =    Q(X) +   ----    =   X^(n-k) * D(X) +/- R(x)  = Q(X)R(X)
+ 	       P(X) 					  P(X)
+
+
+ 	       polynomial division to get remainder
+
+            
+            P(x) = x^5 + x^4 + x^2 + x^0             Generator  (6 bits, leaves a remainder of 5 or less)
+            D(X) = x^9 + x^7 + x^3 + x^2 + x^0       
+
+ 	        x^14 + x^12 + x^8 + x^7 + x^5  			(= x^5 D(x))  padding with 5 bits 
+
+
+            		  1 1 0 1 0 1 0 1 1 0 0 
+ 	       		   ________________________________
+ 	       110101 | _ 1 0 1 0 0 0 1 1 0 1 0 0 0 0 0    (mod2 subtract ---- XOR)
+ 	         L>>>>    1 1 0 1 0 1 0 0 0 0 0 0 0 0 0    (add 0's to the end of divisor)
+ 	         		-------------------------------
+ 	         		 _  1 1 1 0 1 1 1 0 1 0 0 0 0 0
+ 	         		    1 1 0 1 0 1 0 0 0 0 0 0 0 0
+ 	         		    ---------------------------	
+ 	         		      _ 1 1 1 0 1 0 1 0 0 0 0 0
+ 	         		        1 1 0 1 0 1 0 0 0 0 0 0
+ 	         		        -----------------------
+ 	         		          _ 1 1 1 1 1 0 0 0 0 0
+ 	         		            1 1 0 1 0 1 0 0 0 0
+ 	         		            -------------------
+ 	         		              _ 1 0 1 1 0 0 0 0
+ 	         		                1 1 0 1 0 1 0 0
+ 	         		                ---------------
+ 	         		                _ 1 1 0 0 1 0 0
+ 	         		                  1 1 0 1 0 1 0
+ 	         		                  -------------
+ 	         		                        1 1 1 0  =>> R(X) this is less than the 5 bits shifted, and it will be sent with the other 10 bits
+
+
+
+ 	         		  		OR
+
+
+ 	         		  			    x^14 / x^5
+ 	         		                 |        	
+ 	         		                 V
+ 	         		                x^9 + x^8 + x^.......
+ 	         		            ____________________________________
+ 	    x^5 + x^4 + x^2 + x^0  |   x^14 + 		 x^12 +             x^8 + x^7 + x^5
+ 	     L>> multiplied by x^9 >   x^14 + x^13 +        x^11 + x^9   |		|
+ 	     						   -------------------------------   V      |
+ 	     						          x^13 + x^12 + x^11 + x^9 + x^8    |	
+ 	     						          x^13 + x^12 +   x^10 +     x^8    |
+ 	     						          ------------------------------    V
+ 	     						            ........
+
+
+
+
+  (rec.)     (err.)		(sent)
+ 	Y(X)   =   E(X)   +   T(X)
+
+ 	Q(X)P(X) =/= X^i
+
+
+ 	Re[Y(X) / P(X)] = Re[E(X) / P(X)]    = 0 for single bit errors
+
+
+ 	P(x) = q(X) -> primitive polynomial             means that L(X) = X^N + 1  and N = 2^L - 1, where L = deg(P(X))
+ 		   q(X)(X + 1)
+
+    can catch
+    	- double bits error
+    	- odd number of error
+    	- Any burst error <= n-k
+
+
+
+ [      k       ][ n - k]
+ 							(function that gens. n-k bits)
+ w = F(X)               k ---> [ F ] ---> n
+ 2^k 
+ valid codewords

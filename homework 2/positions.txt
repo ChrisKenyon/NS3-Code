@@ -1,0 +1,25 @@
+enb 1 is at 0
+enb 2 is at 250
+ue2 is at 150
+
+1: ue1 is at 50
+2: ue1 is at 75
+3: ue1 is at 100
+4: ue1 is at 125
+5: ue1 is at 150
+
+both pwr 20
+
+--------------------------------
+
+ue1 50
+ue2 350
+enb's 200
+
+pwr
+enb2 
+1: 25
+2: 30
+3: 35
+4: 40
+5: 45

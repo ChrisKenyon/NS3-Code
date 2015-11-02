@@ -1,0 +1,348 @@
+Wireless Technology Notes July 27 - 30
+
+Chapter 6 continued...
+
+General CRC Architecture to implement Divisor
+See figure 6.7 and notes page 14
+Uses shift register and XOR gates
+
+codeword
+k = 2 bits
+00  ->  00000
+01  ->  00111
+10  ->  11001
+11  ->  11110
+
+5 bits -> 32 possibilities
+
+
+Coding Rate
+
+	- k bits input -> n bits -> Coding Rate = k/n
+
+Hamming Distance
+
+	= The number of different bits between two values
+
+	- d(00000, 01110) = 3
+
+	- d_min  =     min ( d(V_i, V_j) )
+			 (i =/= j) 
+
+	- for all t,  d_min >= 2t + 1
+	- up to t errors can be corrected
+	- t + 1 error -> detect
+
+
+How Coding Improves System Performance
+
+	- Coding makes it require less energy to provide a decrease error rate
+	- A lower E_b / N_0  (SNR) is required with coding, except at very high error rates (1 - 0.1 (this would most likely break connection anyway))
+	- The difference in SNR required is the region of coding gain
+
+
+
+------------------------------------------------ END OF MIDTERM ONE MATERIAL --------------------------------------------------------------------------------
+
+
+
+
+Error Control Techniques (in Chapter 7)
+
+	- Automatic Repeat Request (ARQ)
+		- Collective name for error control mechanisms
+		- Error Detection, Positive ACK, Negative ACK
+		
+	- Stop and Wait ARQ
+		- Source transmits single frame
+		- Waits for ACK (with timeout ready)
+		- If frame received is damaged, discard it
+		- If ACK is damaged, transmitter will not recognize. 
+			- It will resend, then receiver will discard and resend ACK
+			- Every packet has a sequence number to be identifiable
+
+		- This is a SLOW method. Not very effective
+
+
+	- Go-Back-N ARQ
+		- Most commonly used error control
+		- Based on sliding-window
+		- Use window size to control number of outstanding frames
+		- While no errors occur, the destination will acknowledge incoming frames as usual
+			- RR = Receive ready, or piggybacked acknowledgement
+		- If the destination station detects an error in a frame, it sends a reject and discards other incoming messages
+		- The lost frame and the following messages which were discarded must be retransmitted
+
+	- Selective-Reject (ARQ)
+		- Just like Go-back-N
+		- The difference is that it doesn't discard others after an error, 
+		  it makes the transmitter retransmit just the lost frame
+
+
+Multiple Channel Access (in Chapter 8)
+
+
+	- Frequency-division duplex (FDD)
+		-----------------------------
+		Guard Band
+		-----------------------------
+		
+		Subchannel for S1
+		
+		-----------------------------
+		Guard Band
+		-----------------------------
+
+		Subchannel for S2
+
+		-----------------------------
+		Guard Band
+		-----------------------------
+
+
+	- Time-division duplex (TDD)
+
+		- Separates the time 
+
+	- Frequency-division multiple access (FDMA)
+		-----------------------------
+		Guard Band
+		-----------------------------
+		Uplink f band for S1
+		-----------------------------
+		Guard Band
+		-----------------------------
+		Uplink f band for S2
+		-----------------------------
+		Guard Band
+		-----------------------------
+		Uplink f band for S3
+		-----------------------------
+		Guard Band
+		-----------------------------
+
+		Downlink frequency band
+
+		-----------------------------
+
+
+	- Time-division multiple access (TDMA)
+
+		|time |g |time |
+		|for  |u |for  |
+		|S1   |a |S2   | ......
+		|     |r |     |
+		|     |d |     |
+
+
+
+
+
+Cellular Networks
+
+
+Principles of Cellular Networks
+
+	- Developed to increase the capaciy available for mobile radio telephone service
+	- Prior to cellular radio:
+		80km radius 25 channels
+
+Organization
+	
+	- Key for mobile technologies
+	- Based on the use of multiple low power transmitters
+	- Area divided into cells
+		- In a tiling pattern to provide full coverage
+		- Each one with its own antenna
+		- Each is allocated...
+		- Adjacent base stations have different frequencies
+
+Frequency Reuse
+
+	- 10 to 50 frequencies per cell
+	- Limit power to prevent it escaping to adjacent cells
+
+	- Hexagonal pattern, no directly neighboring base stations share a frequency
+
+		-  D = min distance of BS using the same f
+		-  R = radius of hexagon
+		-  d = distance btw 2 neighbor = sqrt(3)R
+		-  N = reuse factor
+		-  k frequencies --->  k/N freq
+
+		-  N = I^2 + J^2 + I * J
+
+Increasing Capacity
+	
+	- Add new channels
+		- Not all channels used to start with
+
+	- Frequency borrowing
+		- Taken from adjacent cells by congested cells
+		- Assign frequencies dynamically
+
+	- Cell splitting  (Placing more base stations)
+		- Non-uniform topography and traffic distribution
+		- Use smaller cells in high use areas
+
+	- Cell Sectoring
+		- Cell is divided into wedge shaped sectors (3-6 per cell)
+		- Each sector is assigned a separate subset of the cell's channels
+		- Directional antennas at base station are used to focus on each sector
+
+	- Microcells
+		- As cells become smaller, antennas move from tops of hills and large buildings to tops of small buildings and sides of large buildings, to lamp posts, where they form microcells
+		- Use reduced power to cover a much smaller area
+		- Good for city streets in congested areas, along highways, inside large public buildings
+
+
+	Ex:
+
+	32 cells
+	336 freq. ch.
+	N = 7		-->   336/7 = 48
+	cell r = 1.6km
+
+	48 * 32 = 1536 callers
+	D = R * sqrt(3N)
+
+
+
+Cellular System Channels
+
+	- Two types of channels are avail. between mobile unit and base station (BS)
+	
+	- Control Channels
+		- Set up and maintain calls
+		- Establish relationship between mobile unit and nearest base station
+	- Traffic Channels
+		- Carry voice and data
+
+
+Mobile Radio Propagation Effects
+
+	- Signal Strength
+		- Strength of signal between BS and mobile unit needs to be strong enough maintain signal quality
+		- Not too stron so as to create co-channel interference
+		- Must handle variations in noise
+
+	- Fading
+		- Time variation of received signal
+		- Caused by changes in transmission path(s)
+		- Even if signal strength is in effective range, signal propagation effects may disrupt the signal
+
+
+Design Factors
+
+	- Propagation effects:
+		- Desired maximum trasmit power level at BS
+		- Multi-path propagation
+			- Reflection - signal bounces off of surfaces
+			- Diffraction - signal bends, goes around corners
+			- Scattering - signal is scattered in many directions if it hits many objects
+		
+				|	1   	2
+				|	1   	2
+Trans pulses	|	1 		2
+			  E	-----------------------------------
+				|		1 		2
+				|		1   1   2 	  2
+Recv pulses		|		1   1   2  1  2  1  2  2     (multipath signals)
+				-----------------------------------
+							time
+
+				Receiver has to know what it has already received
+
+
+
+Types of Fading
+
+	- Fast Fading
+		- Rapid variations in signal strength occur over distance of about one-half a wavelength
+	
+	- Slow Fading
+		- Change in the average received power level due to user passing different height buildings, vacant lots, intersections, etc.
+	
+	- Flat Fading
+		- All frequency components of the received signal fluctuate in the same proportions simultaneously
+
+	- Selective Fading
+		- Attenuation occuring over a portions of the the bandwidth of the signal
+
+
+
+Error Compensation Mechanisms
+	
+	Diversity
+		- Based on the fact that individual channels experience independent fading events
+		- Use multiple logical channels between transmitter and receiver
+		- Send part of signal over each channel
+		- Doesn't eliminate errors, but reduces
+		- Space diversity involves physical transmission paths
+		- More commonly refers to frequency or time diversity
+		- Most important example of frequency diversity is spread spectrum
+
+
+		- Time diversity 
+			- repetition
+
+		- Frequency diversity
+			- different channels
+
+		- Space Diversity
+
+		- Polarization Diversity
+
+		- Cooperative Diversity
+
+
+
+Generations
+
+	1G
+
+	2G
+
+	3G
+		- 144kbps in cars
+		- 384kbps for standing/walking
+		- Up to 2.048 Mbps for office use
+
+	4G
+		- 100 Mbps for high-moblity
+		- 1 Gbps for low-mobility
+
+		- Supports wireless back hauling (WiMax, by IEEE)
+
+
+		- Long Term Evolution (LTE)
+			- Based on use of orthogonal frequency multiple access (OFDMA)
+			- Uses one frequency
+
+			- Downlink: 100 Mbps @ 20MHz
+			- Uplink: 50Mbps @ 20 MHz
+			- Spectral efficiency
+				- Downlink: 30bps/Hz @ 8 x 8
+				- Uplink: 15bps/Hz @ 4 x 4
+
+
+		- LTE-Advanced
+			- Downlink: 1 Gbps @ 100MHz
+			- Uplink: 500Mbps @ 100 MHz
+			- Spectral efficiency
+				- Downlink: 5bps/Hz @ 2 x 2
+				- Uplink: 2.5 bps/Hz@ 
+
+			- Has Femtocells
+				- Low power, short range, self-contained base station
+				- Term has expanded to encompass higher capacity units for enterprise, rural, and metropolitan areas
+				- By far the most number type of small cells
+				- Now outnumber macrocells
+
+
+
+			- Uses FDD and TDD bandwidth shit
+			- Guard bands between DL and UL
+
+			- PGW - Connects eNB's to the internet
+
